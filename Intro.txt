@@ -1,0 +1,49 @@
+. Socket.io is a web-socket library
+. It is a full-duplex realtime bi-directional communication protocol.
+. "io" is the circuit which is in the server. It has many sockets through which client can communicate.
+
+. "socket" when used in the frontend side it means we are refering to the individual user.
+. "io" when used in the server side it means we are talking about the whole circuit and we are emitting the event in whole circuit so the event could reach to everyone through sockets.
+
+NOTE :- Every socket has its own ID;
+
+ Pre-Built Event :- connection , disconnect
+
+ Event Trigger Mehtod :- emit
+ Event Listener :- on 
+
+
+Example :- 
+
+From Server Side :- 
+    io.emit(event1, "Hi");
+    
+    socket.on(btn, (m) => {  // listen from the client side event
+        console.log(m)
+    })
+
+    socket.broadcast.emit(...)  // Leaves that socket who generate the event and sent it all
+
+On Client Side :-
+    socket.on(event1, (data) => {
+    console.log(data);
+});
+
+socket.emit(btn, 4);
+
+
+Room Space for particular single chat to the user :- 
+
+to() -->> To trigger event for particular room.
+
+    Person A (userId: 1) ---->> Person B (userId: 2)
+
+    socket.to(2).emit()
+
+
+
+Room Space for particular group chat of users :-
+
+join() -->> To join people.
+
+socket.join(room_name)
