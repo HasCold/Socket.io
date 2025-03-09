@@ -1,0 +1,50 @@
+The process of upgrading an HTTP connection to a WebSocket connection follows a specific handshake mechanism. Here’s a step-by-step breakdown with a diagram:
+
+---
+
+### **Steps for HTTP to WebSocket Upgrade:**
+1. **Client Sends an HTTP Request (Upgrade Request)**
+   - The client sends an HTTP `GET` request with special headers indicating that it wants to upgrade to WebSockets.
+   - Key headers:
+     ```
+     GET /chat HTTP/1.1
+     Host: example.com
+     Connection: Upgrade
+     Upgrade: websocket
+     Sec-WebSocket-Key: random_base64_string
+     Sec-WebSocket-Version: 13
+     ```
+
+2. **Server Responds with 101 Switching Protocols**
+   - If the server supports WebSockets, it responds with an HTTP `101 Switching Protocols` status, confirming the upgrade.
+   - Key response headers:
+     ```
+     HTTP/1.1 101 Switching Protocols
+     Upgrade: websocket
+     Connection: Upgrade
+     Sec-WebSocket-Accept: hashed_value
+     ```
+
+3. **Connection Upgraded to WebSocket**
+   - Once the handshake is successful, both the client and server start communicating over a persistent WebSocket connection.
+
+---
+
+### **Diagram:**
+```
++-------------+                          +-------------+
+|   Client    |                          |   Server    |
++-------------+                          +-------------+
+        |                                         |
+        | 1. HTTP Request with Upgrade Header     |
+        |--------------------------------------->  |
+        |                                         |
+        | 2. 101 Switching Protocols Response     |
+        | <-------------------------------------- |
+        |                                         |
+        | 3. WebSocket Connection Established    |
+        | <===============================>      |
+```
+---
+
+Now, the connection is full-duplex, meaning both the client and server can send messages independently.
